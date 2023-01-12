@@ -18,18 +18,12 @@ import { logout } from "../reducers/user";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faPenToSquare, faPowerOff } from "@fortawesome/free-solid-svg-icons/";
 import { faCircleXmark, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { FontAwesome } from "@expo/vector-icons";
 let imageDeProfil;
-const BACKEND_ADDRESS = "http://172.20.10.10";
+const BACKEND_ADDRESS = "http://192.168.1.6";
 
 export default function HomeScreen({ navigation }) {
-
-
- 
   const userToken = useSelector((state) => state.user.value.data.token);
-
   const [selectedDate, setSelectedDate] = useState("");
-
   const [modalVisible, setModalVisible] = useState(false);
   const [bookedDates, setBookedDates] = useState([""]);
   const [modalDelete, setModalDelete] = useState(false);
@@ -39,7 +33,6 @@ export default function HomeScreen({ navigation }) {
   const userImage = useSelector((state) => state.user.value.data.image);
   const IMAGE_PATH = `https://res.cloudinary.com/dpapzrkqw/image/upload/v1671611852/toutouCare/${user.token}`;
   const userImageP = useSelector((state) => state.user.value.imagePicture);
-
 
   if (userImageP) {
     imageDeProfil = (
@@ -82,34 +75,55 @@ export default function HomeScreen({ navigation }) {
     );
   }
 
-
   const handleLogout = () => {
     dispatch(logout());
     navigation.navigate("Login");
   };
 
-
-  const actualiser = () => {
+  useEffect(() => {
     fetch(`${BACKEND_ADDRESS}:3000/bookings/allBookingPerUser/${user.token}`)
     .then((response) => response.json())
     .then((bookings) => {
       if (bookings) {
         const arrayDate = [];
-
         for (let i = 0; i < bookings.data.length; i++) {
-          arrayDate.push(bookings.data[i].date);
+          arrayDate.push(bookings.data[i].date); 
         }
         setBookedDates(arrayDate);
+        console.log("dates =>",bookedDates);
       }
     });
-  }
-  useEffect(() => {
-    if (!user.token) {
-      return;
+  
+  }, [bookedDates]);
+
+const actualiser = () => {
+  fetch(`${BACKEND_ADDRESS}:3000/bookings/allBookingPerUser/${user.token}`)
+  .then((response) => response.json())
+  .then((bookings) => {
+    if (bookings) {
+      const arrayDate = [];
+      for (let i = 0; i < bookings.data.length; i++) {
+        arrayDate.push(bookings.data[i].date); 
+      }
+      setBookedDates(arrayDate);
+      console.log("dates =>",bookedDates);
     }
-    actualiser()
-   
+  });
+
+}
+  useEffect(() => {
+    console.log("user", user.token);
+    if (!user.token) {
+      navigation.navigate("Login");
+      return;
+    }else{
+      actualiser();
+    }
   }, []);
+
+
+
+
 
   const deleteResa = () => {
     fetch(

@@ -20,7 +20,6 @@ import { useFonts } from "expo-font";
 const BACKEND_ADDRESS = "http://192.168.1.6";
 
 export default function LoginScreen({ navigation }) {
-
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -200,12 +199,7 @@ const styles = StyleSheet.create({
   input: {
     marginVertical: 12,
     padding: 12,
-    fontSize: 18,
-    //width: "80%",
-    //marginTop: 25,
-    //borderBottomColor: "#ec6e5b",
-    //borderBottomWidth: 1,
-    //fontSize: 18,
+    fontSize: 18,   
     backgroundColor: "white",
     width: 300,
     height: 50,

@@ -21,7 +21,6 @@ import book from "./reducers/book";
 import { Provider as PaperProvider } from "react-native-paper";
 import { useEffect } from "react";
 import { Font } from "expo";
-
 import { useFonts } from "expo-font";
 LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
 LogBox.ignoreAllLogs(); //Ignore all log notifications
@@ -64,7 +63,6 @@ const TabNavigator = () => {
     </Tab.Navigator>
   );
 };
-
 export default function App() {
   async function loadFontsAsync() {
     await Font.loadAsync({
@@ -72,8 +70,7 @@ export default function App() {
       Bold: require("./assets/styles/Montserrat-Bold.ttf"),
     });
   }
-
-    loadFontsAsync();
+  loadFontsAsync();
 
   return (
     <Provider store={store}>

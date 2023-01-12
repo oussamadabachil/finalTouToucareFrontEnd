@@ -25,7 +25,6 @@ const moment = require("moment");
 const jsonAnimation = require("../assets/loading_animation.json");
 const BACKEND_ADDRESS = "http://192.168.1.6";
 
-
 export default function BookingScreen() {
   const dispatch = useDispatch();
 
@@ -185,31 +184,8 @@ export default function BookingScreen() {
     }, 1000);
   }, []);
 
-  const actionComplet = () => {
-    const duplicateElement = arrayOfDate.filter(
-      (item, index) => arrayOfDate.indexOf(item) !== index
-    );
-
-    setDuplicata(duplicateElement);
-
-    fetch(
-      `${BACKEND_ADDRESS}:3000/bookings/findUserTokenByDate/${duplicateElement[0]}`
-    )
-      .then((response) => response.json())
-      .then((json) => {
-        if (json) {
-          for (let i = 0; i < json.data.length; i++) {
-            arrayOfToken.push(json.data[i].userToken);
-          }
-          setArrayOfUserToken(arrayOfToken);
-        }
-      });
-  };
   const repeatedValues = [];
   const modifiYApperance = () => {
-    // console.log("selectedDate", selectedDate);
-    // console.log("idUSER", userToken);
-
     fetch(
       `${BACKEND_ADDRESS}:3000/bookings/booking/info/${userToken}/${selectedDate}`
     )
@@ -403,7 +379,7 @@ export default function BookingScreen() {
             </View>
           </>
         );
-      } else  {
+      } else {
         let reserverOrAlert = (
           <TouchableOpacity
             style={styles.buttonDejaReserver}
@@ -1000,8 +976,6 @@ const styles = StyleSheet.create({
     elevation: 9,
     backgroundColor: "transparent",
     borderRadius: 13,
-    // paddingVertical: 10,
-    // paddingHorizontal: 20,
   },
 
   buttonDejaReserver: {
